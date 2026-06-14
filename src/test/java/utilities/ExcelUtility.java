@@ -35,7 +35,7 @@ public static void writeProductsToExcel(List<String> products) throws IOExceptio
 
     FileOutputStream fos =
     		new FileOutputStream(System.getProperty("user.dir")
-            + "\\src\\testresults\\LaptopProducts.xlsx");
+            + "\\src\\testresults\\LaptopProducts1.xlsx");
 //            new FileOutputStream("LaptopProducts.xlsx");
 
     wb.write(fos);
