@@ -1,4 +1,4 @@
-package Live_Automation;
+package testCases;
 
 import java.time.Duration;
 

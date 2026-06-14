@@ -1,4 +1,4 @@
-package Live_Automation;
+package testCases;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -11,9 +11,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utilities.ExcelUtility; 
 
-public class Flipkart_validation {
+import pages.Flip_Home_Page;
+import pages.ResultsPage;
+import utils.ExcelUtility; 
+
+public class Flipkart_validation  {
+
 
 	public static void main(String[] args) throws InterruptedException {
 			
@@ -24,24 +28,48 @@ public class Flipkart_validation {
 		{
 		driver.manage().window().maximize();
 		driver.get("https://www.flipkart.com/");
-       WebElement  searchbox=driver.findElement(By.xpath("//input[contains(@placeholder,'Search for Products')]"));
-      WebElement closebutton=driver.findElement(By.xpath("//span[@role='button' and @class='b3wTlE']"));
-       if(closebutton.isDisplayed())
-       {
-    	   closebutton.click();
-       }
 		
-       wait.until(ExpectedConditions.visibilityOf(searchbox));
-       searchbox.sendKeys("Laptops");
-       searchbox.sendKeys(Keys.ENTER);
-       List<String> resultprodinfo=productInfo(driver);
-//       for(String res:resultprodinfo)
-//       {
-//    	   
-//    	   System.out.println(res);
-//       }
-       ExcelUtility.writeProductsToExcel(resultprodinfo);
-       
+        Flip_Home_Page fh=new Flip_Home_Page(driver);
+        ResultsPage rp=new ResultsPage(driver);
+        fh.closeButton();
+        fh.searchproducts("Laptops");
+        
+        List<String> allProducts = new ArrayList<>();
+
+     // PAGE 1
+     allProducts.addAll(productInfo(driver));
+     System.out.println("Page 1 products extracted");
+
+     // CLICK NEXT ONCE
+     if (rp.isNextEnabled()) {
+         rp.clickNextButton();
+     }
+
+     // capture first product before clicking next
+     WebElement firstProductBefore =
+             driver.findElement(By.xpath("//div[@class='RG5Slk']"));
+
+     rp.clickNextButton();
+
+     // WAIT until old page becomes stale
+     wait.until(ExpectedConditions.stalenessOf(firstProductBefore));
+     
+     
+     // PAGE 2
+     allProducts.addAll(productInfo(driver));
+     System.out.println("Page 2 products extracted");
+
+     // CLICK PREVIOUS ONCE
+     if (rp.isPreviousEnabled()) {
+         rp.clickPreviousButton();
+     }
+
+     // IMPORTANT: do NOT extract again
+     System.out.println("This page product info is already extracted");
+
+            
+        ExcelUtility.writeProductsToExcel(allProducts);
+
        
        
 		}
