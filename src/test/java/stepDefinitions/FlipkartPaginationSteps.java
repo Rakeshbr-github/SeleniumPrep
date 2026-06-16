@@ -54,7 +54,8 @@ public class FlipkartPaginationSteps {
 
     @Then("user validates products on first page")
     public void validate_first_page() {
-        allProducts.addAll(productInfo());
+    	productpage=new ProductPage();
+        allProducts.addAll(productpage.getProductInfo(driver));
         System.out.println("Page 1 products extracted");
     }
 
@@ -80,7 +81,7 @@ public class FlipkartPaginationSteps {
 
     @Then("user validates products on second page")
     public void validate_second_page() {
-        allProducts.addAll(productInfo());
+        allProducts.addAll(productpage.getProductInfo(driver));
         System.out.println("Page 2 products extracted");
     }
 
@@ -113,9 +114,6 @@ public class FlipkartPaginationSteps {
     // COMMON METHOD
     // =========================
 
-    public List<String> productInfo() {
-        return productpage.getProductInfo(driver); // move locator logic to POM (BEST PRACTICE)
-    }
-    
+
     
 }

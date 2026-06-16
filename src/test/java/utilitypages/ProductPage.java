@@ -29,8 +29,6 @@ public class ProductPage {
         return products;
     }
 
-	public List<String> getProductInfo1(WebDriver driver) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+    
 }

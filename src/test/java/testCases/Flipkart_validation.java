@@ -39,21 +39,17 @@ public class Flipkart_validation  {
      // PAGE 1
      allProducts.addAll(productInfo(driver));
      System.out.println("Page 1 products extracted");
-
-     // CLICK NEXT ONCE
-     if (rp.isNextEnabled()) {
-         rp.clickNextButton();
-     }
-
+     
+     
      // capture first product before clicking next
      WebElement firstProductBefore =
              driver.findElement(By.xpath("//div[@class='RG5Slk']"));
 
-     rp.clickNextButton();
-
-     // WAIT until old page becomes stale
-     wait.until(ExpectedConditions.stalenessOf(firstProductBefore));
-     
+     // CLICK NEXT ONCE
+     if (rp.isNextEnabled()) {
+         rp.clickNextButton();
+         wait.until(ExpectedConditions.stalenessOf(firstProductBefore));
+     }
      
      // PAGE 2
      allProducts.addAll(productInfo(driver));
@@ -71,13 +67,8 @@ public class Flipkart_validation  {
         ExcelUtility.writeProductsToExcel(allProducts);
 
        
-       
 		}
-		
-		
-		
-		
-			
+				
 		catch(Exception e)
 		{
 		    e.printStackTrace();
